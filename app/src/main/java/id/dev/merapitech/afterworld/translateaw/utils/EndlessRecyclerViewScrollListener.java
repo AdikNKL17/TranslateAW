@@ -1,4 +1,4 @@
-package com.merapitech.finance.utils;
+package id.dev.merapitech.afterworld.translateaw.utils;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;

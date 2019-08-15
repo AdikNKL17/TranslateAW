@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/search"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -70,6 +71,7 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -77,12 +79,24 @@
                 android:background="@drawable/bg_spinner">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/appCompatTextView"
+                    android:id="@+id/spinner_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:text="Pilih Bahasa"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/spinner_bahasa"
+                    android:layout_width="299dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toStartOf="@+id/imageView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -93,9 +107,9 @@
                     android:layout_height="32dp"
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/ic_icons8_circled_chevron_down"
-                    app:layout_constraintBottom_toTopOf="@+id/appCompatTextView"
+                    app:layout_constraintBottom_toTopOf="@+id/spinner_text"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
+                    app:layout_constraintTop_toBottomOf="@+id/spinner_text" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

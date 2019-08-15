@@ -1,4 +1,4 @@
-package com.merapitech.finance.utils;
+package id.dev.merapitech.afterworld.translateaw.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

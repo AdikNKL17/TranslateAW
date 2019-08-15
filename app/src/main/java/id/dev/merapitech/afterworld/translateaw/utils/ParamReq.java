@@ -1,16 +1,14 @@
-package com.merapitech.finance.utils;
+package id.dev.merapitech.afterworld.translateaw.utils;
 
 import android.content.Context;
 
-import com.merapitech.finance.R;
-import com.merapitech.finance.model.ModelDoUnMonth;
-import com.merapitech.finance.model.ModelDoUnYear;
-import com.merapitech.finance.module.MainActivity;
-import com.merapitech.finance.request.RequestApprovePlay;
-import com.merapitech.finance.request.RequestApproveRAB;
-import com.merapitech.finance.request.RequestLogin;
-import com.merapitech.finance.request.RequestSigCode;
 
+import id.dev.merapitech.afterworld.translateaw.MainActivity;
+import id.dev.merapitech.afterworld.translateaw.R;
+import id.dev.merapitech.afterworld.translateaw.request.RequestBahasa;
+import id.dev.merapitech.afterworld.translateaw.request.RequestDetail;
+import id.dev.merapitech.afterworld.translateaw.request.RequestEdit;
+import id.dev.merapitech.afterworld.translateaw.request.RequestJenis;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
@@ -27,85 +25,27 @@ public class ParamReq {
         return (MainActivity) context;
     }
 
-    public static Call<ResponseBody> req0101(String username, String password, Context context) {
+    public static Call<ResponseBody> req0201(Context context) {
         APIInterface = Api.initRetrofit(Api.showLog);
-        RequestLogin.Data data = new RequestLogin.Data(username, password);
-        RequestLogin params = new RequestLogin(context.getString(R.string.login),  data,context.getString(R.string.signature));
-        return APIInterface.requesLogin(params);
+        RequestJenis request = new RequestJenis(context.getString(R.string.code_jenis),context.getString(R.string.signature));
+        return APIInterface.requestJenis(request);
     }
-
-    public static Call<ResponseBody> req000cs(String hCode,Context context) {
+    public static Call<ResponseBody> req0202(Context context, String idlanguage) {
         APIInterface = Api.initRetrofit(Api.showLog);
-        RequestSigCode params = new RequestSigCode(hCode, context.getString(R.string.signature));
-        return APIInterface.requestSigCode(params);
+        RequestBahasa.DataBahasa data = new RequestBahasa.DataBahasa(idlanguage);
+        RequestBahasa request = new RequestBahasa(context.getString(R.string.code_bahasa),context.getString(R.string.signature), data);
+        return APIInterface.requestBahasa(request);
     }
-
-    public static Call<ResponseBody> reqApproveRAB(String id_rab, String status, Context context) {
+    public static Call<ResponseBody> req0203(Context context, String idlanguage) {
         APIInterface = Api.initRetrofit(Api.showLog);
-        RequestApproveRAB.Data data = new RequestApproveRAB.Data(id_rab, status);
-        RequestApproveRAB params = new RequestApproveRAB(context.getString(R.string.code_approve),  data,context.getString(R.string.signature));
-        return APIInterface.requestApproveRAB(params);
+        RequestDetail.DataDetail data = new RequestDetail.DataDetail(idlanguage);
+        RequestDetail request = new RequestDetail(context.getString(R.string.code_detail),context.getString(R.string.signature), data);
+        return APIInterface.requestDetail(request);
     }
-
-    public static Call<ResponseBody> reqAprRejctPlay(String id_rab, Context context, String code) {
+    public static Call<ResponseBody> req0204(Context context, String idlanguage, String title) {
         APIInterface = Api.initRetrofit(Api.showLog);
-        RequestApprovePlay.Data data = new RequestApprovePlay.Data(id_rab);
-        RequestApprovePlay params = new RequestApprovePlay(code, data,context.getString(R.string.signature));
-        return APIInterface.requestApprovePlay(params);
+        RequestEdit.DataEdit data = new RequestEdit.DataEdit(idlanguage, title);
+        RequestEdit request = new RequestEdit(context.getString(R.string.code_edit),context.getString(R.string.signature), data);
+        return APIInterface.requestEdit(request);
     }
-
-    public static Call<ResponseBody> req0201(String hCode,Context context) {
-        APIInterface = Api.initRetrofit(Api.showLog);
-        RequestSigCode params = new RequestSigCode(hCode, context.getString(R.string.signature));
-        return APIInterface.requestSigCode(params);
-    }
-
-    public static Call<ResponseBody> req0202(String hCode, Context context) {
-        APIInterface = Api.initRetrofit(Api.showLog);
-        RequestSigCode params = new RequestSigCode(hCode, context.getString(R.string.signature));
-        return APIInterface.requestSigCode(params);
-    }
-
-    public static Call<ResponseBody> req0203(String hCode, Context context) {
-        APIInterface = Api.initRetrofit(Api.showLog);
-        RequestSigCode params = new RequestSigCode(hCode, context.getString(R.string.signature));
-        return APIInterface.requestSigCode(params);
-    }
-
-    public static Call<ResponseBody> req0204(String hCode, Context context) {
-        APIInterface = Api.initRetrofit(Api.showLog);
-        RequestSigCode params = new RequestSigCode(hCode, context.getString(R.string.signature));
-        return APIInterface.requestSigCode(params);
-    }
-
-    public static Call<ResponseBody> req0205(String hCode, Context context) {
-        APIInterface = Api.initRetrofit(Api.showLog);
-        RequestSigCode params = new RequestSigCode(hCode, context.getString(R.string.signature));
-        return APIInterface.requestSigCode(params);
-    }
-
-    public static Call<ResponseBody> req0206(String hCode, Context context) {
-        APIInterface = Api.initRetrofit(Api.showLog);
-        RequestSigCode params = new RequestSigCode(hCode, context.getString(R.string.signature));
-        return APIInterface.requestSigCode(params);
-    }
-
-    public static Call<ResponseBody> req0207(String hCode, Context context) {
-        APIInterface = Api.initRetrofit(Api.showLog);
-        RequestSigCode params = new RequestSigCode(hCode, context.getString(R.string.signature));
-        return APIInterface.requestSigCode(params);
-    }
-
-    public static Call<ResponseBody> req0208(String hCode, Context context) {
-        APIInterface = Api.initRetrofit(Api.showLog);
-        RequestSigCode params = new RequestSigCode(hCode, context.getString(R.string.signature));
-        return APIInterface.requestSigCode(params);
-    }
-
-    public static Call<ResponseBody> req0209(String hCode, Context context) {
-        APIInterface = Api.initRetrofit(Api.showLog);
-        RequestSigCode params = new RequestSigCode(hCode, context.getString(R.string.signature));
-        return APIInterface.requestSigCode(params);
-    }
-
 }

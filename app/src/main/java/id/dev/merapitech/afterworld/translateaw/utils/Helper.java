@@ -1,4 +1,4 @@
-package com.merapitech.finance.utils;
+package id.dev.merapitech.afterworld.translateaw.utils;
 
 import android.content.Context;
 import android.view.View;
@@ -8,15 +8,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import com.merapitech.finance.module.MainActivity;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.NumberFormat;
 import java.util.Locale;
+
+import id.dev.merapitech.afterworld.translateaw.MainActivity;
 
 /**
  * Created by arga on 1/1/17.

@@ -1,24 +1,23 @@
-package com.merapitech.finance.utils;
+package id.dev.merapitech.afterworld.translateaw.utils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import androidx.appcompat.app.AlertDialog;
 
-import com.merapitech.finance.model.ModelAnggaran;
-import com.merapitech.finance.model.ModelProduct;
-import com.merapitech.finance.model.ModelTransaksi;
-import com.merapitech.finance.model.ModelUser;
+import androidx.appcompat.app.AlertDialog;
 
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import id.dev.merapitech.afterworld.translateaw.response.ResponseBahasa;
+import id.dev.merapitech.afterworld.translateaw.response.ResponseJenis;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -35,11 +34,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Api {
     private static Api instance;
     public static String BASE_URL = "http://209.97.161.178:6002/api/v1/";
-    public static List<ModelProduct> prodList;
-    public static List<ModelTransaksi> transList;
-    public static List<ModelAnggaran> anggaranList;
-    public static List<ModelUser> userList;
-
+    public static List<ResponseBahasa> bahasaList;
+    public static List<ResponseJenis> jenisList;
+    public static ArrayList<String> jenisBahasaList = new ArrayList<String>();
     public static ProgressDialog mProgressDialog;
     public static boolean showLog = true;
     private static NumberFormat formatter;
