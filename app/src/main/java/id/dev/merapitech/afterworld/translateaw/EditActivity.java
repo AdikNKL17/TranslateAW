@@ -3,6 +3,7 @@ package id.dev.merapitech.afterworld.translateaw;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
@@ -21,7 +22,8 @@ import retrofit2.Response;
 public class EditActivity extends AppCompatActivity {
     View view;
     Toolbar toolbar;
-    private AppCompatEditText editJenis, editVariabel, editTitle;
+    public static AppCompatEditText editJenis, editVariabel, editTitle, editJudul;
+    public static AppCompatTextView textTitle;
     private AppCompatButton buttonSimpan;
     private Callback<ResponseBody> cBack;
 
@@ -37,8 +39,10 @@ public class EditActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         editJenis = findViewById(R.id.edit_jenis);
         editTitle = findViewById(R.id.edit_title);
+        editJudul = findViewById(R.id.edit_judul);
         editVariabel = findViewById(R.id.edit_variabel);
         buttonSimpan = findViewById(R.id.button_simpan);
+        textTitle = findViewById(R.id.text_title);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -62,13 +66,33 @@ public class EditActivity extends AppCompatActivity {
 
     private void setData(){
         Intent intent = getIntent();
-        jenis = intent.getStringExtra("JENIS");
-        title = intent.getStringExtra("TITLE");
-        variabel = intent.getStringExtra("VARIABEL");
         idlanguage = intent.getStringExtra("ID");
-        editJenis.setText(jenis);
-        editTitle.setText(title);
-        editVariabel.setText(variabel);
+
+        Call<ResponseBody> call = ParamReq.req0203(this, idlanguage);
+        cBack = new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    boolean handle = Handle.handleDetail(response.body().string(), getApplicationContext());
+                    if (handle) {
+
+                    } else {
+
+                        Toast.makeText(EditActivity.this, "Tidak Ada Data", Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Api.retryDialog(getApplicationContext(), call, cBack, 1, false);
+            }
+        };
+        Api.enqueueWithRetry(this, call, cBack, false, "Mengambil Data Jenis Bahasa");
+
     }
 
     private void updateData(){

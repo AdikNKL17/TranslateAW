@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private AppCompatTextView bahasa;
     private ConstraintLayout btnSpinner;
     private Spinner spinnerBahasa;
+    private ProgressBar progressBar;
+    ArrayAdapter<String> dataAdapter;
 
     public static String idlanguage = "1";
 
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         btnSpinner = findViewById(R.id.btn_spinner);
         spinnerBahasa = findViewById(R.id.spinner_bahasa);
         bahasa = findViewById(R.id.spinner_text);
+        progressBar = findViewById(R.id.progressBar);
 
         Api.bahasaList = new ArrayList<>();
         bahasaAdapter = new BahasaAdapter(this, Api.bahasaList);
@@ -66,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(bahasaAdapter);
 
-        getData();
         getJenis();
+        getData();
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -99,41 +103,85 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnSpinner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bahasa.setVisibility(View.GONE);
-                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, Api.jenisBahasaList);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerBahasa.setAdapter(dataAdapter);
-                spinnerBahasa.setVisibility(View.VISIBLE);
-                spinnerBahasa.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        String selectedLanguage = parent.getItemAtPosition(position).toString();
-                        if(position!=0) {
-                            bahasa.setText(selectedLanguage);
-                            idlanguage = String.valueOf(position);
-                            Log.d("id: ", String.valueOf(position));
-                            getData();
-                            spinnerBahasa.setVisibility(View.GONE);
-                            bahasa.setVisibility(View.VISIBLE);
-                        }
-                    }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        spinnerBahasa.setVisibility(View.GONE);
-                        bahasa.setVisibility(View.VISIBLE);
-//                        idlanguage = "1";
-//                        getData();
-                    }
-                });
+
+//        btnSpinner.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                spin();
+//                bahasa.setVisibility(View.GONE);
+//                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, Api.jenisBahasaList);
+//                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                spinnerBahasa.setAdapter(dataAdapter);
+//                spinnerBahasa.setVisibility(View.VISIBLE);
+//                Toast.makeText(getApplicationContext(),Api.jenisBahasaList+"",Toast.LENGTH_SHORT).show();
+//                spinnerBahasa.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                    @Override
+//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                        String selectedLanguage = parent.getItemAtPosition(position).toString();
+//                        Toast.makeText(getApplicationContext(),"xx",Toast.LENGTH_SHORT).show();
+//                        if(position!=0) {
+//                            bahasa.setText(selectedLanguage);
+//                            idlanguage = String.valueOf(position);
+//                            Log.d("id: ", String.valueOf(position));
+//                            getData();
+//                           // spinnerBahasa.setVisibility(View.GONE);
+//                            //bahasa.setVisibility(View.VISIBLE);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onNothingSelected(AdapterView<?> parent) {
+//                       // spinnerBahasa.setVisibility(View.GONE);
+//                      //  bahasa.setVisibility(View.VISIBLE);
+//                      idlanguage = "1";
+//                    getData();
+//                    }
+//                });
+//            }
+//        });
+    }
+
+    private void spin(){
+
+
+       // bahasa.setVisibility(View.GONE);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, Api.jenisBahasaList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerBahasa.setAdapter(dataAdapter);
+       // Toast.makeText(getApplicationContext(),Api.jenisBahasaList+"",Toast.LENGTH_SHORT).show();
+//        spinnerBahasa.setVisibility(View.VISIBLE);
+        spinnerBahasa.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedLanguage = parent.getItemAtPosition(position).toString();
+             //   Toast.makeText(getApplicationContext(),"xx",Toast.LENGTH_SHORT).show();
+                if(position!=0) {
+                    bahasa.setText(selectedLanguage);
+                    idlanguage = String.valueOf(position);
+                    Log.d("id: ", String.valueOf(position));
+                    progressBar.setVisibility(View.VISIBLE);
+                    Api.bahasaList.clear();
+                    getData();
+                    // spinnerBahasa.setVisibility(View.GONE);
+                    //bahasa.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // spinnerBahasa.setVisibility(View.GONE);
+                //  bahasa.setVisibility(View.VISIBLE);
+              //  Toast.makeText(getApplicationContext(),"xx12",Toast.LENGTH_SHORT).show();
+                idlanguage = "1";
+                getData();
             }
         });
     }
 
+
     private void getJenis(){
+        Api.jenisBahasaList.clear();
         Call<ResponseBody> call = ParamReq.req0201(this);
         cBack = new Callback<ResponseBody>() {
             @Override
@@ -141,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     boolean handle = Handle.handleJenis(response.body().string(), getApplicationContext());
                     if (handle) {
-
+                        spin();
                     } else {
 
                         Toast.makeText(MainActivity.this, "Belum Ada Data", Toast.LENGTH_SHORT).show();
@@ -154,13 +202,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Api.retryDialog(getApplicationContext(), call, cBack, 1, false);
+                Api.retryDialog(MainActivity.this, call, cBack, 1, false);
             }
         };
         Api.enqueueWithRetry(this, call, cBack, false, "Mengambil Data Jenis Bahasa");
     }
 
     private void getData(){
+
         Call<ResponseBody> call = ParamReq.req0202(this, idlanguage);
         cBack = new Callback<ResponseBody>() {
             @Override
@@ -169,8 +218,8 @@ public class MainActivity extends AppCompatActivity {
                     Api.bahasaList.clear();
                     boolean handle = Handle.handleBahasa(response.body().string(), getApplicationContext());
                     if (handle) {
+                        progressBar.setVisibility(View.GONE);
                         bahasaAdapter.notifyDataSetChanged();
-
                     } else {
 
                         Toast.makeText(MainActivity.this, "Belum Ada Data", Toast.LENGTH_SHORT).show();
@@ -183,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Api.retryDialog(getApplicationContext(), call, cBack, 1, false);
+                Api.retryDialog(MainActivity.this, call, cBack, 1, false);
             }
         };
         Api.enqueueWithRetry(this, call, cBack, false, "Mengambil Data Bahasa");

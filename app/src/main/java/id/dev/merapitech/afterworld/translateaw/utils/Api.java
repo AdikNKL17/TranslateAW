@@ -1,9 +1,15 @@
 package id.dev.merapitech.afterworld.translateaw.utils;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -16,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import id.dev.merapitech.afterworld.translateaw.R;
 import id.dev.merapitech.afterworld.translateaw.response.ResponseBahasa;
 import id.dev.merapitech.afterworld.translateaw.response.ResponseJenis;
 import okhttp3.OkHttpClient;
@@ -33,7 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Api {
     private static Api instance;
-    public static String BASE_URL = "http://209.97.161.178:6002/api/v1/";
+    public static String BASE_URL = "http://209.97.161.178:6002/api/bahasa/";
     public static List<ResponseBahasa> bahasaList;
     public static List<ResponseJenis> jenisList;
     public static ArrayList<String> jenisBahasaList = new ArrayList<String>();
@@ -96,58 +103,68 @@ public class Api {
 
     //RETRY DIALOG//
     public static void retryDialog(final Context context, final Call<ResponseBody> call, final Callback<ResponseBody> callback, final int tanda, final boolean dialog) {
-        new AlertDialog.Builder(context)
-                .setTitle("Gagal Terhubung")
-                .setMessage("Pastikan sudah terhubung dengan jaringan yang stabil")
-                .setCancelable(false)
-                .setNegativeButton("Keluar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                ((Activity) context).setResult(tanda);
-                                ((Activity) context).finish();
-                            }
-                        }
-                )
-                .setPositiveButton("Coba lagi", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        if (dialog == true) {
-                            mProgressDialog = new ProgressDialog(context);
-                            mProgressDialog.setIndeterminate(true);
-                            mProgressDialog.setCancelable(false);
-                            mProgressDialog.setMessage("Loading...");
-                            mProgressDialog.show();
-                            call.clone().enqueue(new RetryableCallback<ResponseBody>(call) {
+        final Dialog dialog1 = new Dialog(context);
+        dialog1.setContentView(R.layout.error_dialog);
+        dialog1.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                                @Override
-                                public void onFinalResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    mProgressDialog.dismiss();
-                                    callback.onResponse(call, response);
-                                }
+        Button btn_no, btn_yes;
 
-                                @Override
-                                public void onFinalFailure(Call<ResponseBody> call, Throwable t) {
-                                    mProgressDialog.dismiss();
-                                    callback.onFailure(call, t);
-                                }
-                            });
-                        } else {
-                            call.clone().enqueue(new RetryableCallback<ResponseBody>(call) {
+        btn_no = dialog1.findViewById(R.id.button_no);
+        btn_yes = dialog1.findViewById(R.id.button_gallery);
 
-                                @Override
-                                public void onFinalResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    mProgressDialog.dismiss();
-                                    callback.onResponse(call, response);
-                                }
+        btn_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog1.dismiss();
+                ((Activity) context).setResult(tanda);
+                ((Activity) context).finish();
+            }
+        });
 
-                                @Override
-                                public void onFinalFailure(Call<ResponseBody> call, Throwable t) {
-                                    mProgressDialog.dismiss();
-                                    callback.onFailure(call, t);
-                                }
-                            });
+        btn_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dialog == true) {
+                    mProgressDialog = new ProgressDialog(context);
+                    mProgressDialog.setIndeterminate(true);
+                    mProgressDialog.setCancelable(false);
+                    mProgressDialog.setMessage("Loading...");
+                    mProgressDialog.show();
+                    call.clone().enqueue(new RetryableCallback<ResponseBody>(call) {
+
+                        @Override
+                        public void onFinalResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                            mProgressDialog.dismiss();
+                            callback.onResponse(call, response);
                         }
 
-                    }
-                }).create().show();
+                        @Override
+                        public void onFinalFailure(Call<ResponseBody> call, Throwable t) {
+//                            mProgressDialog.dismiss();
+                            callback.onFailure(call, t);
+                        }
+                    });
+                } else {
+                    call.clone().enqueue(new RetryableCallback<ResponseBody>(call) {
+
+                        @Override
+                        public void onFinalResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                            mProgressDialog.dismiss();
+                            callback.onResponse(call, response);
+                        }
+
+                        @Override
+                        public void onFinalFailure(Call<ResponseBody> call, Throwable t) {
+//                            mProgressDialog.dismiss();
+                            callback.onFailure(call, t);
+                        }
+                    });
+                }
+                dialog1.dismiss();
+            }
+        });
+        dialog1.show();
     }
 
     //RETROFIT RETRIES//

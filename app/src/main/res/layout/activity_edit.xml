@@ -110,7 +110,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
-                    android:text="Variabel Bahasa"
+                    android:text="Screen"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -124,7 +124,7 @@
                     android:background="@null"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    android:text="Variabel"
+                    android:text="Screen"
                     android:enabled="false"
                     app:layout_constraintEnd_toEndOf="@+id/text_variabel"
                     app:layout_constraintStart_toStartOf="@+id/text_variabel"
@@ -143,6 +143,54 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edit_variabel" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_judul"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="Bahasa Indonesia"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edit_judul"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@null"
+                    android:gravity="top|left"
+                    android:enabled="false"
+                    android:lines="4"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="Judul"
+                    app:layout_constraintEnd_toEndOf="@+id/text_judul"
+                    app:layout_constraintStart_toStartOf="@+id/text_judul"
+                    app:layout_constraintTop_toBottomOf="@+id/text_judul" />
+
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="#DDDDDD"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_title" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
